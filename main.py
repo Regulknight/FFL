@@ -1,3 +1,4 @@
+import base64
 import os
 
 import flask
@@ -26,9 +27,13 @@ gen = IdGenerator()
 
 users = []
 
+u1 = User(IdGenerator().get_new_user_id(), "pam", "pam", "123", "123")
+users.append(u1)
+
 t1 = Task(1, 1, "Покушать", "Сходить куда-нибудь покушать", "Шавермечная", "ночью", "Я", "Не комплитед", 10)
 t2 = Task(2, 1, "Разбудить Лесю", "Потолкать её", "Справа", "Сейчас", "Я", "Не комплитед", 10)
-t3 = Task(3, 1, "Отхватить от Леси люлей", "Защищаться", "На месте", "После выполнения второго таска", "Я", "Не комплитед совсем", 10)
+t3 = Task(3, 1, "Отхватить от Леси люлей", "Защищаться", "На месте", "После выполнения второго таска", "Я",
+          "Не комплитед совсем", 10)
 task_l = [t1, t2, t3]
 
 
@@ -36,7 +41,6 @@ def search_task_by_ind(ind):
     for t in task_l:
         if t.id == ind:
             return t
-
 
 
 @login_manager.user_loader
@@ -67,14 +71,14 @@ def login():
     return render_template("login.html")
 
 
-@login_required
 @app.route("/tasks/add", methods=["GET", "POST"])
+@login_required
 def add_task():
     if request.method == "POST":
         name = flask.request.form["name"]
         date = flask.request.form["date"]
         time = flask.request.form["time"]
-        task = Task("","",name,"","",date + " " + time,"", "")
+        task = Task("", "", name, "", "", date + " " + time, "", "")
         task_l.append(task)
         current_user.task_list.append(task)
         print(name + " " + date + " " + time)
@@ -117,6 +121,7 @@ def registraty(fname, name, login, password):
     users.append(u)
     return True
 
+
 @app.route("/tasks")
 def tasks():
     return render_template('Card.html', task_list=task_l)
@@ -126,5 +131,11 @@ def tasks():
 def task(task_ind):
     return render_template('task.html', task=search_task_by_ind(task_ind))
 
+
+@app.route("/map")
+def map():
+    return render_template("testmap2.html", coord="Самара, 5 просека, 99б")
+
+
 app.secret_key = os.urandom(24)
-app.run("localhost",debug=True)
+app.run("localhost", debug=True)

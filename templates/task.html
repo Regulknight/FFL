@@ -31,6 +31,7 @@
                         <span class="card-title">{{task.name}}</span>
                         <p>{{task.time}}</p>
                         <p>{{task.location}}</p>
+                           %   include("./templates/testmap2.html", coord=task.location)
                         <p>{{task.description}}</p>
                         <p>{{task.status}}</p>
                     </div>
