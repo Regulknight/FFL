@@ -41,7 +41,6 @@ def load_user(user_id):
 
 @app.route("/")
 def index():
-    print(g.user.name)
     return render_template('index.html')
 
 
@@ -52,7 +51,8 @@ def login():
         password = flask.request.form["password"]
         user = check_auth(login, password)
         if user:
-            login_user(user)
+            if login_user(user, False, True):
+                user.is_authenticated = True
             return redirect("/")
     return render_template("login.html")
 
