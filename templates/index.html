@@ -1,4 +1,9 @@
 <h1>Hello World!</h1>
 {% if current_user.is_authenticated %}
   Hi {{ current_user.name }}!
+    {% if current_user.exp < 0 %}
+        YOU ARE BAD PERSON!!!!!!!!!!!!!!!!!!!!! :с
+    {% endif %}
 {% endif %}
+
+
