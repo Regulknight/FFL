@@ -13,6 +13,7 @@ from flask_login import LoginManager
 from flask_login import current_user
 from flask_login import login_user
 
+from Model.Task import Task
 from Model.User import User
 from controllers.Id_generator import IdGenerator
 
@@ -24,6 +25,18 @@ login_manager.login_view = "login"
 gen = IdGenerator()
 
 users = []
+
+t1 = Task(1, 1, "Покушать", "Сходить куда-нибудь покушать", "Шавермечная", "ночью", "Я", "Не комплитед", 10)
+t2 = Task(2, 1, "Разбудить Лесю", "Потолкать её", "Справа", "Сейчас", "Я", "Не комплитед", 10)
+t3 = Task(3, 1, "Отхватить от Леси люлей", "Защищаться", "На месте", "После выполнения второго таска", "Я", "Не комплитед совсем", 10)
+task_l = t1, t2, t3
+
+
+def search_task_by_ind(ind):
+    for t in task_l:
+        if t.id == ind:
+            return t
+
 
 
 @login_manager.user_loader
@@ -52,6 +65,16 @@ def login():
         else:
             return "Вы кто такой вообще?"
     return render_template("login.html")
+
+
+@app.route("/tasks/add", methods=["GET", "POST"])
+def add_task():
+    if request.method == "POST":
+        name = flask.request.form["name"]
+        date = flask.request.form["date"]
+        time = flask.request.form["time"]
+        print(name + " " + date + " " + time)
+    return render_template("add.html")
 
 
 @app.route("/css/<path:path>")
@@ -90,6 +113,14 @@ def registraty(fname, name, login, password):
     users.append(u)
     return True
 
+@app.route("/tasks")
+def tasks():
+    return render_template('Card.html', task_list=task_l)
+
+
+@app.route("/tasks/<int:task_ind>")
+def task(task_ind):
+    return render_template('task.html', task=search_task_by_ind(task_ind))
 
 app.secret_key = os.urandom(24)
 app.run("localhost",debug=True)

@@ -4,7 +4,7 @@
     <link rel="stylesheet" type="text/css" href="progress.css"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-    <title>Create New Post</title>
+    <title>Create New Task</title>
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="../css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
@@ -28,28 +28,23 @@
 </nav>
 
 <div class="container">
-{% for task in task_list %}
     <div class="row">
-        <div class="col s12">
-            <div class="card blue lighten-3 #FF">
-                <div class="card-content white-text">
-                    <span class="card-title">{{task.name}}</span>
-                    <p>{{task.time}}</p>
-                    <p>{{task.location}}</p>
-                    <p>{{task.description}}</p>
-                </div>
-                <div class="card-action">
-                    <a href = "/tasks/{{task.id}}" class="waves-effect waves-light btn orange" >Откликнуться</a>
-                </div>
+        <form class = "col s6 offset-l4" action="../tasks/add" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <input type="text" value="" name="name" placeholder="Task Name">
             </div>
-        </div>
+            <div class="row">
+                <input type="date" value="" name="date" class="datepicker">
+            </div>
+            <div class="row">
+                <input type ="time" value="" name="time">
+            </div>
+            <div class="row">
+                <button class="waves-effect waves-light btn orange" type="submit">Добавить</button>
+            </div>
+        </form>
     </div>
-{% endfor %}
 </div>
-
 
 </body>
 </html>
-
-
-
