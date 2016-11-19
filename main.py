@@ -5,6 +5,7 @@ from flask import Flask
 from flask import redirect
 from flask import render_template
 from flask import request
+from flask import abort
 from flask import send_from_directory
 from flask_login import logout_user
 from flask_login import LoginManager
@@ -33,12 +34,12 @@ idGen = IdGenerator()
 u1 = User(idGen.get_new_user_id(), "pam", "pam", "123", "123")
 users.append(u1)
 
-t1 = Task(idGen.get_new_task_id(), 1, "Покушать", "Сходить куда-нибудь покушать", "Шавермечная", "ночью", "Я",
+t1 = Task(idGen.get_new_task_id(), 1, "Покушать", "Сходить куда-нибудь покушать", "Шавермечная", "ночью", "", "Я",
           "Не комплитед", 10)
-t2 = Task(idGen.get_new_task_id(), 2, "Разбудить Лесю", "Потолкать её", "Самара, 5 просека, 99Б", "Сейчас", "Я",
+t2 = Task(idGen.get_new_task_id(), 2, "Разбудить Лесю", "Потолкать её", "Самара, 5 просека, 99Б", "Сейчас", "", "Я",
           "Не комплитед", 10)
 t3 = Task(idGen.get_new_task_id(), 3, "Отхватить от Леси люлей", "Защищаться", "На месте",
-          "После выполнения второго таска", "Я",
+          "После выполнения второго таска", "", "Я",
           "Не комплитед совсем", 10)
 task_l = [t1, t2, t3]
 
@@ -104,10 +105,9 @@ def add_task():
         time = flask.request.form["time"]
         location = flask.request.form["location"]
         id = idGen.get_new_task_id()
-        task = Task(id, "", name, "", location, date + " " + time, current_user, "")
+        task = Task(id, "", name, "", location, date, time, current_user, "")
         task_l.append(task)
         current_user.task_list.append(task)
-        print(name + " " + date + " " + time)
         return redirect("/tasks/" + str(id))
     return render_template("add.html")
 
@@ -192,6 +192,14 @@ def profile():
 def logout():
     logout_user()
     return redirect("/")
+
+
+@app.route("/tasks/<int:task_ind>/edit")
+def edit(task_ind):
+    t = search_task_by_ind(task_ind)
+    if current_user.id != t.owner.id:
+        abort(550)
+    return render_template("edit.html", task=t)
 
 app.secret_key = os.urandom(24)
 app.run("localhost", debug=True)

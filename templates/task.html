@@ -59,6 +59,9 @@
                                     <p class="waves-effect waves-light btn light-green" >Уже учавствую!</p>
                                 {% endif %}
                             {% endif %}
+                            {% if current_user.id == task.owner.id %}
+                                <a href = "/tasks/{{task.id}}/edit" class="waves-effect waves-light btn orange" >Редактировать</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
