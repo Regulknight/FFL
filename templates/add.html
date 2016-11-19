@@ -15,7 +15,7 @@
 
 <nav>
     <div class="nav-wrapper blue lighten-1">
-      <a href="#" class="brand-logo">Logo</a>
+      <a href="#" class="brand-logo">Be Good</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
 
                 {%if current_user.is_authenticated %}
@@ -29,7 +29,7 @@
 
 <div class="container">
     <div class="row">
-        <form class = "col s6 offset-l4" action="../tasks/add" method="post" enctype="multipart/form-data">
+        <form class = "col s6 offset-l3" action="../tasks/add" method="post" enctype="multipart/form-data">
             <div class="row">
                 <input type="text" value="" name="name" placeholder="Task Name">
             </div>

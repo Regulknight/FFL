@@ -29,7 +29,7 @@ users = []
 t1 = Task(1, 1, "Покушать", "Сходить куда-нибудь покушать", "Шавермечная", "ночью", "Я", "Не комплитед", 10)
 t2 = Task(2, 1, "Разбудить Лесю", "Потолкать её", "Справа", "Сейчас", "Я", "Не комплитед", 10)
 t3 = Task(3, 1, "Отхватить от Леси люлей", "Защищаться", "На месте", "После выполнения второго таска", "Я", "Не комплитед совсем", 10)
-task_l = t1, t2, t3
+task_l = [t1, t2, t3]
 
 
 def search_task_by_ind(ind):
@@ -67,12 +67,16 @@ def login():
     return render_template("login.html")
 
 
+@login_required
 @app.route("/tasks/add", methods=["GET", "POST"])
 def add_task():
     if request.method == "POST":
         name = flask.request.form["name"]
         date = flask.request.form["date"]
         time = flask.request.form["time"]
+        task = Task("","",name,"","",date + " " + time,"", "")
+        task_l.append(task)
+        current_user.task_list.append(task)
         print(name + " " + date + " " + time)
     return render_template("add.html")
 
