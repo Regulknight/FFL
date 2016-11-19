@@ -8,9 +8,13 @@ from flask import request
 from flask import send_from_directory
 from flask_login import LoginManager
 from flask_login import current_user
+from flask_login import login_required
 from flask_login import login_user
 
 from Model.Category import Category
+from controllers.Id_generator import IdGenerator
+
+
 from Model.Task import Task
 from Model.User import User
 from controllers.Id_generator import IdGenerator
@@ -31,9 +35,9 @@ users.append(u1)
 
 t1 = Task(idGen.get_new_task_id(), 1, "Покушать", "Сходить куда-нибудь покушать", "Шавермечная", "ночью", "Я",
           "Не комплитед", 10)
-t2 = Task(idGen.get_new_task_id(), 1, "Разбудить Лесю", "Потолкать её", "Самара, 5 просека, 99Б", "Сейчас", "Я",
+t2 = Task(idGen.get_new_task_id(), 2, "Разбудить Лесю", "Потолкать её", "Самара, 5 просека, 99Б", "Сейчас", "Я",
           "Не комплитед", 10)
-t3 = Task(idGen.get_new_task_id(), 1, "Отхватить от Леси люлей", "Защищаться", "На месте",
+t3 = Task(idGen.get_new_task_id(), 3, "Отхватить от Леси люлей", "Защищаться", "На месте",
           "После выполнения второго таска", "Я",
           "Не комплитед совсем", 10)
 task_l = [t1, t2, t3]
@@ -149,7 +153,7 @@ def registraty(fname, name, login, password):
 @app.route("/tasks")
 def tasks():
     cat = request.args.get('category', '')
-    if cat is not None:
+    if cat is not '':
         t_l = search_category_by_id(int(cat))
     else:
         t_l = task_l
@@ -158,13 +162,13 @@ def tasks():
 
 @app.route("/tasks/<int:task_ind>")
 def task(task_ind):
-    return render_template('task.html', task=search_task_by_ind(task_ind), members = get_task_by_id(task_ind).members)
+    return render_template('task.html', task=search_task_by_ind(task_ind), members=get_task_by_id(task_ind).members)
 
 
 @app.route("/assigntask", methods=["POST"])
 @login_required
 def assign_task():
-    current_user.assign_list.append(flask.request.form["id"])
+    current_user.assign_list.append(get_task_by_id(int(flask.request.form["id"])))
     get_task_by_id(int(flask.request.form["id"])).members.append(current_user)
     return redirect("/tasks/" + flask.request.form["id"])
 
@@ -173,6 +177,12 @@ def get_task_by_id(id):
     for t in task_l:
         if t.id == id:
             return t
+
+
+@app.route("/profile")
+@login_required
+def profile():
+    return render_template("profile.html", assign_list=current_user.assign_list)
 
 
 app.secret_key = os.urandom(24)
