@@ -12,6 +12,12 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="../css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="../js/materialize.min.js"></script>
+    <script>
+          $(document).ready(function(){
+            $('.collapsible').collapsible();
+            });
+    </script>
 </head>
 
 <body>
@@ -19,12 +25,22 @@
     {% include 'nav.html' %}
 
     <div class="container">
-        {{ current_user.name }}
-        {{ current_user.s_name }}
-        {{ current_user.login }}
-        {% for a in assign_list %}
-           <p> {{ a.name }}</p>
-        {% endfor %}
+        <div class = "card-panel">
+            <p>Имя: {{ current_user.name }} </p>
+            <p>Фамилия: {{ current_user.s_name }} </p>
+            <p>Логин: {{ current_user.login }} </p>
+            <ul class = "collapsible" data-collapsible = "accordion">
+                <li class="active">
+                    <div class = "collapsible-header">My Tasks</div>
+                    <div class="collapsible-body">
+                    {% for a in assign_list %}
+                        <a href = "../tasks/{{a.id}}">{{ a.name }}</a>
+                    {% endfor %}
+                    </div>
+                </li>
+            </ul>
+            </p>
+        </div>
     </div>
 </body>
 </html>

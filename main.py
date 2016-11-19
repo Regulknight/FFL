@@ -117,6 +117,10 @@ def css(path):
     return send_from_directory("css", path)
 
 
+@app.route("/js/<path:path>")
+def js(path):
+    return send_from_directory("js", path)
+
 def check_auth(username, password):
     for u in users:
         if u.login == username and u.password == password:
