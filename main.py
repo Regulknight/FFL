@@ -1,30 +1,47 @@
-from functools import wraps
+import os
 
 import flask
-from bottle import static_file
 from flask import Flask
+from flask import g
 from flask import redirect
 from flask import render_template
 from flask import request
 from flask import send_from_directory
-from flask import url_for
-from flask_login1 import LoginManager
+from flask_login import login_required
+from flask_login import confirm_login
+from flask_login import LoginManager
+from flask_login import current_user
 from flask_login import login_user
 
-from Model.Task import Task
 from Model.User import User
 
 app = Flask(__name__)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+login_manager.login_view = "login"
 
 users = []
 u = User("asd", "Adsa", "123", "123")
 users.append(u)
 
+
+@app.before_request
+def before_request():
+    g.user = current_user
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    for u in users:
+        if u.id == user_id:
+            return u
+    return None
+
+
 @app.route("/")
 def index():
+    print(g.user.name)
     return render_template('index.html')
 
 
@@ -36,7 +53,7 @@ def login():
         user = check_auth(login, password)
         if user:
             login_user(user)
-            return redirect(url_for("/"))
+            return redirect("/")
     return render_template("login.html")
 
 
@@ -48,9 +65,9 @@ def css(path):
 def check_auth(username, password):
     for u in users:
         if u.login == username and u.password == password:
-            print(u.id)
             return u
     return None
 
 
+app.secret_key = os.urandom(24)
 app.run("localhost")
