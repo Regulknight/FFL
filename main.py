@@ -8,7 +8,7 @@ from flask import render_template
 from flask import request
 from flask import send_from_directory
 from flask import url_for
-from flask_login1 import LoginManager
+from flask_login import LoginManager
 from flask_login import login_user
 
 from Model.Task import Task
