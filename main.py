@@ -11,9 +11,11 @@ from flask_login import current_user
 from flask_login import login_required
 from flask_login import login_user
 
-from Model.Task import Task
-from Model.User import User
 from controllers.Id_generator import IdGenerator
+
+from Model.User import User
+
+from Model.Task import Task
 
 app = Flask(__name__)
 
