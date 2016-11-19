@@ -8,43 +8,45 @@
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="../css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="../css/index" type="text/css" rel="stylesheet">
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 </head>
 
 <body>
-
+<header>
+    <ul id="nav-mobile" class="side-nav fixed grey" style="transform: translateX(0%);">
+        <ul class="collection" style="border: 0px; padding-left: 5%" >
+            <li class="collection-header">Категории:</li>
+            {% for category in category_list %}
+                <li><a href = "/tasks?category={{category.id}}">{{category.name}}</a></li>
+            {% endfor %}
+        </ul>
+    </ul>
+</header>
 <nav>
     <div class="nav-wrapper blue lighten-1">
-      <a href="#" class="brand-logo" style="padding-left: 1%">Be Good</a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <a href="#" class="brand-logo" style="padding-left: 20%">Be Good</a>
 
-                {%if current_user.is_authenticated %}
-                    <li><progress style="-webkit-appearance: progress-bar" value="70" max="100"></progress></li>
-                    <li style="padding-left: 15px">{{current_user.s_name}}</li>
-                    <li style="padding-left: 15px; padding-right: 15px" >{{current_user.name}}</li>
-                {% endif %}
-      </ul>
     </div>
 </nav>
 
-<div class="container">
+<div class="row">
+    <div class="col s9 offset-l2" style="padding-left: 11%; padding-right: 0%">
 {% for task in task_list %}
-    <div class="row">
-        <div class="col s12">
-            <div class="card blue lighten-3 #FF">
-                <div class="card-content white-text">
-                    <span class="card-title">{{task.name}}</span>
-                    <p>{{task.time}}</p>
-                    <p>{{task.location}}</p>
-                    <p>{{task.description}}</p>
-                </div>
-                <div class="card-action">
-                    <a href = "/tasks/{{task.id}}" class="waves-effect waves-light btn orange" >Откликнуться</a>
-                </div>
+
+        <div class="card blue lighten-3">
+            <div class="card-content white-text">
+                <span class="card-title">{{task.name}}</span>
+                <p>{{task.time}}</p>
+                <p>{{task.location}}</p>
+                <p>{{task.description}}</p>
+            </div>
+            <div class="card-action">
+                <a href = "/tasks/{{task.id}}" class="waves-effect waves-light btn orange" >Откликнуться</a>
             </div>
         </div>
-    </div>
 {% endfor %}
+        </div>
 </div>
 
 

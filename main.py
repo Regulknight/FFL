@@ -8,14 +8,12 @@ from flask import request
 from flask import send_from_directory
 from flask_login import LoginManager
 from flask_login import current_user
-from flask_login import login_required
 from flask_login import login_user
 
-from controllers.Id_generator import IdGenerator
-
-from Model.User import User
-
+from Model.Category import Category
 from Model.Task import Task
+from Model.User import User
+from controllers.Id_generator import IdGenerator
 
 app = Flask(__name__)
 
@@ -40,11 +38,26 @@ t3 = Task(idGen.get_new_task_id(), 1, "Отхватить от Леси люле
           "Не комплитед совсем", 10)
 task_l = [t1, t2, t3]
 
+c1 = Category(1, "Котики")
+c2 = Category(2, "Собачки")
+с3 = Category(3, "Бабушки")
+
+c_l = [c1, c2, с3]
+
 
 def search_task_by_ind(ind):
     for t in task_l:
         if t.id == ind:
             return t
+
+
+def search_category_by_id(id):
+    result = []
+    for x in task_l:
+        if x.category_index == id:
+            result.append(x)
+    return result
+
 
 
 @login_manager.user_loader
@@ -135,7 +148,12 @@ def registraty(fname, name, login, password):
 
 @app.route("/tasks")
 def tasks():
-    return render_template('Card.html', task_list=task_l)
+    cat = request.args.get('category', '')
+    if cat is not None:
+        t_l = search_category_by_id(int(cat))
+    else:
+        t_l = task_l
+    return render_template('Card.html', task_list=t_l, category_list=c_l)
 
 
 @app.route("/tasks/<int:task_ind>")
