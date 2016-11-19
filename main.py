@@ -64,10 +64,11 @@ def login():
         login = flask.request.form["login"]
         password = flask.request.form["password"]
         user = check_auth(login, password)
+        next = flask.request.args.get('next')
         if user:
             if login_user(user, False, True):
                 user.is_authenticated = True
-            return redirect("/")
+            return flask.redirect(next or "/")
         else:
             return "Вы кто такой вообще?"
     return render_template("login.html")
