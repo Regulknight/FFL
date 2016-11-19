@@ -1,17 +1,14 @@
-import base64
 import os
 
 import flask
 from flask import Flask
-from flask import g
 from flask import redirect
 from flask import render_template
 from flask import request
 from flask import send_from_directory
-from flask_login import login_required
-from flask_login import confirm_login
 from flask_login import LoginManager
 from flask_login import current_user
+from flask_login import login_required
 from flask_login import login_user
 
 from Model.Task import Task
@@ -32,9 +29,12 @@ idGen = IdGenerator()
 u1 = User(idGen.get_new_user_id(), "pam", "pam", "123", "123")
 users.append(u1)
 
-t1 = Task(idGen.get_new_task_id(), 1, "Покушать", "Сходить куда-нибудь покушать", "Шавермечная", "ночью", "Я", "Не комплитед", 10)
-t2 = Task(idGen.get_new_task_id(), 1, "Разбудить Лесю", "Потолкать её", "Справа", "Сейчас", "Я", "Не комплитед", 10)
-t3 = Task(idGen.get_new_task_id(), 1, "Отхватить от Леси люлей", "Защищаться", "На месте", "После выполнения второго таска", "Я",
+t1 = Task(idGen.get_new_task_id(), 1, "Покушать", "Сходить куда-нибудь покушать", "Шавермечная", "ночью", "Я",
+          "Не комплитед", 10)
+t2 = Task(idGen.get_new_task_id(), 1, "Разбудить Лесю", "Потолкать её", "Самара, 5 просека, 99Б", "Сейчас", "Я",
+          "Не комплитед", 10)
+t3 = Task(idGen.get_new_task_id(), 1, "Отхватить от Леси люлей", "Защищаться", "На месте",
+          "После выполнения второго таска", "Я",
           "Не комплитед совсем", 10)
 task_l = [t1, t2, t3]
 
@@ -60,18 +60,21 @@ def index():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    next = flask.request.args.get('next')
     if request.method == "POST":
         login = flask.request.form["login"]
         password = flask.request.form["password"]
+        next = flask.request.form["next"]
         user = check_auth(login, password)
-        next = flask.request.args.get('next')
         if user:
             if login_user(user, False, True):
                 user.is_authenticated = True
-            return flask.redirect(next or "/")
+            if next == "None":
+                return flask.redirect("/")
+            return flask.redirect(next)
         else:
             return "Вы кто такой вообще?"
-    return render_template("login.html")
+    return render_template("login.html", next=next)
 
 
 @app.route("/tasks/add", methods=["GET", "POST"])
@@ -81,12 +84,13 @@ def add_task():
         name = flask.request.form["name"]
         date = flask.request.form["date"]
         time = flask.request.form["time"]
+        location = flask.request.form["location"]
         id = idGen.get_new_task_id()
-        task = Task(id, "", name, "", "", date + " " + time, "", "")
+        task = Task(id, "", name, "", location, date + " " + time, "", "")
         task_l.append(task)
         current_user.task_list.append(task)
         print(name + " " + date + " " + time)
-        return redirect("/tasks/" + str(id) )
+        return redirect("/tasks/" + str(id))
     return render_template("add.html")
 
 
@@ -134,12 +138,21 @@ def tasks():
 
 @app.route("/tasks/<int:task_ind>")
 def task(task_ind):
-    return render_template('task.html', task=search_task_by_ind(task_ind))
+    return render_template('task.html', task=search_task_by_ind(task_ind), members = get_task_by_id(task_ind).members)
 
 
-@app.route("/map")
-def map():
-    return render_template("testmap2.html", coord="Самара, 5 просека, 99б")
+@app.route("/assigntask", methods=["POST"])
+@login_required
+def assign_task():
+    current_user.assign_list.append(flask.request.form["id"])
+    get_task_by_id(int(flask.request.form["id"])).members.append(current_user)
+    return redirect("/tasks/" + flask.request.form["id"])
+
+
+def get_task_by_id(id):
+    for t in task_l:
+        if t.id == id:
+            return t
 
 
 app.secret_key = os.urandom(24)
