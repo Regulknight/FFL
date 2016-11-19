@@ -27,12 +27,14 @@ gen = IdGenerator()
 
 users = []
 
-u1 = User(IdGenerator().get_new_user_id(), "pam", "pam", "123", "123")
+idGen = IdGenerator()
+
+u1 = User(idGen.get_new_user_id(), "pam", "pam", "123", "123")
 users.append(u1)
 
-t1 = Task(1, 1, "Покушать", "Сходить куда-нибудь покушать", "Шавермечная", "ночью", "Я", "Не комплитед", 10)
-t2 = Task(2, 1, "Разбудить Лесю", "Потолкать её", "Справа", "Сейчас", "Я", "Не комплитед", 10)
-t3 = Task(3, 1, "Отхватить от Леси люлей", "Защищаться", "На месте", "После выполнения второго таска", "Я",
+t1 = Task(idGen.get_new_task_id(), 1, "Покушать", "Сходить куда-нибудь покушать", "Шавермечная", "ночью", "Я", "Не комплитед", 10)
+t2 = Task(idGen.get_new_task_id(), 1, "Разбудить Лесю", "Потолкать её", "Справа", "Сейчас", "Я", "Не комплитед", 10)
+t3 = Task(idGen.get_new_task_id(), 1, "Отхватить от Леси люлей", "Защищаться", "На месте", "После выполнения второго таска", "Я",
           "Не комплитед совсем", 10)
 task_l = [t1, t2, t3]
 
@@ -78,10 +80,12 @@ def add_task():
         name = flask.request.form["name"]
         date = flask.request.form["date"]
         time = flask.request.form["time"]
-        task = Task("", "", name, "", "", date + " " + time, "", "")
+        id = idGen.get_new_task_id()
+        task = Task(id, "", name, "", "", date + " " + time, "", "")
         task_l.append(task)
         current_user.task_list.append(task)
         print(name + " " + date + " " + time)
+        return redirect("/tasks/" + str(id) )
     return render_template("add.html")
 
 
