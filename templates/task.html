@@ -42,16 +42,20 @@
                             <iframe width="100%" height="450" frameborder="0" style="border:0"
                                 src="https://www.google.com/maps/embed/v1/place?q={{task.location}}&key=AIzaSyBJd82Ex9ldK5p9-3tXd8vTVyVEpYn_rdI" allowfullscreen></iframe>
                         </div>
-                        <div class="card-action">
-                        </div>
                     </div>
                 </div>
                 <div class="col s9">
                     <div class="card blue lighten-3">
                         <div class="card-content white-text">
                             <span class="card-title"><h4 align="right">{{task.name}}</h4></span>
-                            <p>{{task.description}}</p>
-                            <p>{{task.status}}</p>
+                            <p><i>Описание:</i></p>
+                            <div class = "card-action">
+                                <p>{{task.description}}</p>
+                            </div>
+                            <div class="card-action">
+                                <p><font color = "grey">{{task.status}}</font></p>
+                                <!-- <p align="right"><font color = "green">{{task.status}}</font></p> -->
+                            </div>
                             {% for m in members %}
                                 <p>{{ m.name}} {{ m.s_name }}</p>
                             {% endfor %}
