@@ -23,14 +23,10 @@
         </ul>
     </ul>
 </header>
-<nav>
-    <div class="nav-wrapper blue lighten-1">
-      <a href="#" class="brand-logo" style="padding-left: 20%">Be Good</a>
 
-    </div>
-</nav>
 
 <div class="row">
+{% include 'nav.html' %}
     <div class="col s9 offset-l2" style="padding-left: 11%; padding-right: 0%">
 {% for task in task_list %}
 
@@ -42,7 +38,11 @@
                 <p>{{task.description}}</p>
             </div>
             <div class="card-action">
+                {% if current_user not in task.members %}
                 <a href = "/tasks/{{task.id}}" class="waves-effect waves-light btn orange" >Откликнуться</a>
+                {% else %}
+                <a href = "/tasks/{{task.id}}" class="waves-effect waves-light btn light-green" >Уже учавствую!</a>
+                {% endif %}
             </div>
         </div>
 {% endfor %}

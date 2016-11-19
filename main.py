@@ -6,6 +6,7 @@ from flask import redirect
 from flask import render_template
 from flask import request
 from flask import send_from_directory
+from flask_login import logout_user
 from flask_login import LoginManager
 from flask_login import current_user
 from flask_login import login_required
@@ -13,7 +14,6 @@ from flask_login import login_user
 
 from Model.Category import Category
 from controllers.Id_generator import IdGenerator
-
 
 from Model.Task import Task
 from Model.User import User
@@ -24,7 +24,7 @@ app = Flask(__name__)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
-gen = IdGenerator()
+
 
 users = []
 
@@ -63,7 +63,6 @@ def search_category_by_id(id):
     return result
 
 
-
 @login_manager.user_loader
 def load_user(user_id):
     for u in users:
@@ -74,7 +73,7 @@ def load_user(user_id):
 
 @app.route("/")
 def index():
-    return render_template('index.html')
+    return redirect("/tasks")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -105,7 +104,7 @@ def add_task():
         time = flask.request.form["time"]
         location = flask.request.form["location"]
         id = idGen.get_new_task_id()
-        task = Task(id, "", name, "", location, date + " " + time, "", "")
+        task = Task(id, "", name, "", location, date + " " + time, current_user, "")
         task_l.append(task)
         current_user.task_list.append(task)
         print(name + " " + date + " " + time)
@@ -145,7 +144,7 @@ def registraty(fname, name, login, password):
     for u in users:
         if u.login == login:
             return False
-    u = User(gen.get_new_user_id(), name, fname, login, password)
+    u = User(idGen.get_new_user_id(), name, fname, login, password)
     users.append(u)
     return True
 
@@ -184,6 +183,11 @@ def get_task_by_id(id):
 def profile():
     return render_template("profile.html", assign_list=current_user.assign_list)
 
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect("/")
 
 app.secret_key = os.urandom(24)
 app.run("localhost", debug=True)
