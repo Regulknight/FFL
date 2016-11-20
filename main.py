@@ -41,6 +41,7 @@ c2 = Category(2, "Животные")
 
 c_l = [c1, c2, с3, с4, с5]
 
+
 def get_category_by_id(id):
     for c in c_l:
         if c.id == id:
@@ -70,8 +71,6 @@ t4 = Task(idGen.get_new_task_id(), get_category_by_id(2), "Помощь безд
 
 task_l = [t1, t2, t3, t4]
 u1.task_list.extend(task_l)
-
-
 
 
 def search_task_by_ind(ind):
@@ -157,9 +156,11 @@ def img(path):
 def fonts(path):
     return send_from_directory("fonts", path)
 
+
 @app.route("/info")
 def info():
     return render_template("info.html")
+
 
 def check_auth(username, password):
     for u in users:
@@ -226,19 +227,19 @@ def get_task_by_id(id):
             return t
 
 
-@app.route("/profile")
-@login_required
-def profile():
-    return render_template("profile.html", user=current_user, assign_list=current_user.assign_list,
-                           assign_list_size=len(current_user.assign_list))
-
-
 @app.route("/profile/<int:user_id>")
 @login_required
 def profile_id(user_id):
     u = load_user(user_id)
     return render_template("profile.html", user=u, assign_list=u.assign_list,
                            assign_list_size=len(u.assign_list))
+
+
+@app.route("/profile")
+@login_required
+def profile():
+    return render_template("profile.html", user=current_user, assign_list=current_user.assign_list,
+                           assign_list_size=len(current_user.assign_list))
 
 
 @app.route("/logout")
@@ -279,7 +280,7 @@ def accept(task_index):
                         load_user(t.members[i].id).exp += 10
                 i += 1
             t.status = True
-            return redirect("../../tasks/"+str(t.id))
+            return redirect("../../tasks/" + str(t.id))
         else:
             t.status = True
             return redirect("../../tasks/" + str(t.id))

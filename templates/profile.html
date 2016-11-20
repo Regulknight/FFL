@@ -27,9 +27,9 @@
 
     <div class="container">
         <div class = "card-panel fixed blue lighten-3">
-            <font color = "white"><p>Имя: {{ current_user.name }} </p>
-            <p>Фамилия: {{ current_user.s_name }} </p>
-            <p>Логин: {{ current_user.login }} </p></font>
+            <font color = "white"><p>Имя: {{ user.name }} </p>
+            <p>Фамилия: {{ user.s_name }} </p>
+            <p>Логин: {{ user.login }} </p></font>
             <ul class = "collapsible" data-collapsible = "accordion">
                 <li class="active">
                     <div class = "collapsible-header fixed white">Мои задания: <span class="badge">{{ assign_list_size }}</span></div>
