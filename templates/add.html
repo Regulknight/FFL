@@ -37,7 +37,7 @@
     <div class="row">
         <form class = "col s6 offset-l3" action="../tasks/add" method="post" enctype="multipart/form-data">
             <div class="row">
-                <input type="text" value="" name="name" placeholder="Task Name" required>
+                <input type="text" value="" name="name" placeholder="Название задания" required>
             </div>
             <div class="row">
                 <input type="text" value="" name="description" placeholder="Надо сделать что-то хорошее..." required>
@@ -45,7 +45,7 @@
             <div class="row">
               <div class="input-field">
     <select name="category" required>
-      <option value="" disabled selected>Выбирете категорию</option>
+      <option value="" disabled selected>Выберите категорию</option>
         {% for c in category %}
             <option value="{{ c.id }}">{{ c.name }}</option>
         {% endfor %}
