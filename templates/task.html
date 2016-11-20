@@ -40,9 +40,16 @@
                             <div class = "card-action">
                                 <p align="justify">{{task.description}}</p>
                             </div>
+                            <p><i>Категория:</i></p>
+                            <div class = "card-action">
+                                <p align="justify">{{task.category_index.name}}</p>
+                            </div>
+                            <p><i>Участники:</i></p>
+                        <div class = "card-action">
                             {% for m in members %}
-                                <p>{{ m.name}} {{ m.s_name }}</p>
+                                <p align="justify">{{ m.name}} {{ m.s_name }}</p>
                             {% endfor %}
+                        </div>
                         </div>
                         <div class="card-action">
                             <input type="hidden" name="id" value="{{ task.id }}"/>
@@ -52,7 +59,7 @@
                                 {% if current_user not in task.members %}
                                      <button type="submit" class="waves-effect waves-light btn orange" >Откликнуться</button>
                                 {% else %}
-                                    <p class="waves-effect waves-light btn light-green" >Уже учавствую!</p>
+                                    <a class="waves-effect waves-light btn light-green" >Уже учавствую!</a>
                                 {% endif %}
                             {% endif %}
                             {% if current_user.id == task.owner.id %}

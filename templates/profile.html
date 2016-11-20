@@ -13,6 +13,7 @@
   <link href="../css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="../js/materialize.min.js"></script>
+
     <script>
           $(document).ready(function(){
             $('.collapsible').collapsible();
@@ -31,7 +32,7 @@
             <p>Логин: {{ current_user.login }} </p></font>
             <ul class = "collapsible" data-collapsible = "accordion">
                 <li class="active">
-                    <div class = "collapsible-header fixed blue lighten-2"><font color = "white">My Tasks: {{ assign_list_size }}</font></div>
+                    <div class = "collapsible-header fixed blue lighten-2">My Tasks: <span class="badge">{{ assign_list_size }}</span></div>
                     <div class="collapsible-body">
                     {% for a in assign_list %}
                         {% if assign_list[-1] != a %}

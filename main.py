@@ -117,16 +117,23 @@ def login():
 def add_task():
     if request.method == "POST":
         name = flask.request.form["name"]
+        category = flask.request.form["category"]
         date = flask.request.form["date"]
         time = flask.request.form["time"]
         location = flask.request.form["location"]
         description = flask.request.form["description"]
         id = idGen.get_new_task_id()
-        task = Task(id, "", name, description, location, date, time, current_user, "")
+        task = Task(id, get_category_by_id(int(category)), name, description, location, date, time, current_user, "")
         task_l.append(task)
         current_user.task_list.append(task)
         return redirect("/tasks/" + str(id))
-    return render_template("add.html")
+    return render_template("add.html", category=c_l)
+
+
+def get_category_by_id(id):
+    for c in c_l:
+        if c.id == id:
+            return c
 
 
 @app.route("/css/<path:path>")
@@ -251,10 +258,10 @@ def accept(id):
         abort(550)
     if request.method == "POST":
         for member in t.members:
-            if request.form.get(["checkID"+str(member.id)]):
+            if request.form.get(["checkID" + str(member.id)]):
                 if current_user.id != member.id:
                     member.exp += 10
-        return redirect("../../tasks/"+t.id)
+        return redirect("../../tasks/" + t.id)
 
     return render_template("accept.html", members=t.members, task=t)
 

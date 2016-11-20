@@ -9,6 +9,12 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="../css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+     <script type="text/javascript" src="../js/materialize.min.js"></script>
+    <script>
+         $(document).ready(function() {
+    $('select').material_select();
+  });
+    </script>
 </head>
 
 <body>
@@ -36,7 +42,16 @@
             <div class="row">
                 <input type="text" value="" name="description" placeholder="Надо сделать что-то хорошее..." required>
             </div>
-
+            <div class="row">
+              <div class="input-field">
+    <select name="category" required>
+      <option value="" disabled selected>Выбирете категорию</option>
+        {% for c in category %}
+            <option value="{{ c.id }}">{{ c.name }}</option>
+        {% endfor %}
+    </select>
+  </div>
+                </div>
             <div class="row">
                 <input type="date" value="" name="date" class="datepicker" required>
             </div>
