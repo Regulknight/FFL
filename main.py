@@ -253,7 +253,7 @@ def delete(id):
 @app.route("/accept/<int:task_index>", methods=["GET", "POST"])
 @login_required
 def accept(task_index):
-    t = search_task_by_ind(id)
+    t = search_task_by_ind(task_index)
     if current_user.id != t.owner.id:
         abort(550)
     if request.method == "POST":
