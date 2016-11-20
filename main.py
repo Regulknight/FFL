@@ -41,7 +41,9 @@ t2 = Task(idGen.get_new_task_id(), 3, "Разбудить Лесю", "Потол
 t3 = Task(idGen.get_new_task_id(), 5, "Отхватить от Леси люлей", "Защищаться", "На месте",
           "После выполнения второго таска", "", u1,
           "Не комплитед совсем", 10)
+
 task_l = [t1, t2, t3]
+u1.task_list.extend(task_l)
 
 c1 = Category(1, "Дети")
 c2 = Category(2, "Животные")
@@ -201,6 +203,18 @@ def profile():
 def logout():
     logout_user()
     return redirect("/")
+
+
+@app.route("/delete/<int:id>")
+@login_required
+def delete(id):
+    t = search_task_by_ind(id)
+    if current_user.id == t.owner.id:
+        task_l.remove(t)
+        current_user.task_list.remove(t)
+        return redirect("../tasks")
+    abort(550)
+
 
 
 @app.route("/tasks/<int:task_ind>/edit", methods=["GET", "POST"])
