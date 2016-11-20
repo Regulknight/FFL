@@ -34,7 +34,11 @@
                     <div class = "collapsible-header">My Tasks</div>
                     <div class="collapsible-body">
                     {% for a in assign_list %}
-                        <a href = "../tasks/{{a.id}}">{{ a.name }}</a>
+                        {% if assign_list[-1] != a %}
+                            <a href = "../tasks/{{a.id}}">{{ a.name  + ", "}}</a>
+                        {% else %}
+                            <a href = "../tasks/{{a.id}}">{{ a.name}}</a>
+                        {% endif %}
                     {% endfor %}
                     </div>
                 </li>

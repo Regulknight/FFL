@@ -34,12 +34,12 @@ idGen = IdGenerator()
 u1 = User(idGen.get_new_user_id(), "pam", "pam", "123", "123")
 users.append(u1)
 
-t1 = Task(idGen.get_new_task_id(), 1, "Покушать", "Сходить куда-нибудь покушать", "Шавермечная", "ночью", "", 1,
+t1 = Task(idGen.get_new_task_id(), 1, "Покушать", "Сходить куда-нибудь покушать", "Шавермечная", "ночью", "", u1,
           "Не комплитед", 10)
-t2 = Task(idGen.get_new_task_id(), 5, "Разбудить Лесю", "Потолкать её", "Самара, 5 просека, 99Б", "Сейчас", "", 1,
+t2 = Task(idGen.get_new_task_id(), 3, "Разбудить Лесю", "Потолкать её", "Самара, 5 просека, 99Б", "Сейчас", "", u1,
           "Не комплитед", 10)
-t3 = Task(idGen.get_new_task_id(), 3, "Отхватить от Леси люлей", "Защищаться", "На месте",
-          "После выполнения второго таска", "", 1,
+t3 = Task(idGen.get_new_task_id(), 5, "Отхватить от Леси люлей", "Защищаться", "На месте",
+          "После выполнения второго таска", "", u1,
           "Не комплитед совсем", 10)
 task_l = [t1, t2, t3]
 
@@ -203,13 +203,19 @@ def logout():
     return redirect("/")
 
 
-
-@app.route("/tasks/<int:task_ind>/edit")
+@app.route("/tasks/<int:task_ind>/edit", methods=["GET", "POST"])
 def edit(task_ind):
     t = search_task_by_ind(task_ind)
     if current_user.id != t.owner.id:
         abort(550)
+    if request.method == "POST":
+        t.name = flask.request.form["name"]
+        t.date = flask.request.form["date"]
+        t.time = flask.request.form["time"]
+        t.location = flask.request.form["location"]
+        t.description = flask.request.form["description"]
+        return redirect("/tasks/" + str(t.id))
     return render_template("edit.html", task=t)
 
 app.secret_key = os.urandom(24)
-app.run(host="localhost", debug=True)
+app.run("localhost", debug=True)

@@ -28,9 +28,12 @@
 
 <div class="container">
     <div class="row">
-        <form class = "col s6 offset-l3" action="../tasks/add" method="post" enctype="multipart/form-data">
+        <form class = "col s6 offset-l3" action="../../tasks/{{task.id}}/edit" method="post" enctype="multipart/form-data">
             <div class="row">
                 <input type="text" value="{{task.name}}" name="name" placeholder="Task Name">
+            </div>
+            <div class="row">
+                <input type="text" value="{{task.description}}" name="description" placeholder="Надо сделать что-то хорошее..." required>
             </div>
             <div class="row">
                 <input type="date" value="{{task.date}}" name="date" class="datepicker">
