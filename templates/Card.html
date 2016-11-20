@@ -40,7 +40,7 @@
                 <span class="card-title"><h5 align="right">{{task.name}}</h5></span>
                 <p>{{task.time}}</p>
                 <p><img src= "https://lh4.googleusercontent.com/54FqOPgZTjnlKzWAty9M0ngeIsLliCG6QNuxI_jkBWjjDjg_uUGRP20aiK9AChyKGj2xyyO2TcoW020=w1440-h759" width="18"> {{task.location}}</p>
-                <div class = "card-action"><p>{{task.description}}</p></div>
+                <div class = "card-action"><p align="justify">{{task.description}}</p></div>
             </div>
             <div class="card-action">
                 {% if current_user not in task.members %}
