@@ -193,7 +193,7 @@ def get_task_by_id(id):
 @app.route("/profile")
 @login_required
 def profile():
-    return render_template("profile.html", assign_list=current_user.assign_list)
+    return render_template("profile.html", assign_list=current_user.assign_list, assign_list_size = len(current_user.assign_list))
 
 
 @app.route("/logout")
