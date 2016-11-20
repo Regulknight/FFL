@@ -104,8 +104,9 @@ def add_task():
         date = flask.request.form["date"]
         time = flask.request.form["time"]
         location = flask.request.form["location"]
+        description = flask.request.form["description"]
         id = idGen.get_new_task_id()
-        task = Task(id, "", name, "", location, date, time, current_user, "")
+        task = Task(id, "", name, description, location, date, time, current_user, "")
         task_l.append(task)
         current_user.task_list.append(task)
         return redirect("/tasks/" + str(id))
@@ -120,6 +121,7 @@ def css(path):
 @app.route("/js/<path:path>")
 def js(path):
     return send_from_directory("js", path)
+
 
 def check_auth(username, password):
     for u in users:
@@ -187,11 +189,13 @@ def get_task_by_id(id):
 def profile():
     return render_template("profile.html", assign_list=current_user.assign_list)
 
+
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
     return redirect("/")
+
 
 
 @app.route("/tasks/<int:task_ind>/edit")

@@ -31,16 +31,20 @@
     <div class="row">
         <form class = "col s6 offset-l3" action="../tasks/add" method="post" enctype="multipart/form-data">
             <div class="row">
-                <input type="text" value="" name="name" placeholder="Task Name">
+                <input type="text" value="" name="name" placeholder="Task Name" required>
             </div>
             <div class="row">
-                <input type="date" value="" name="date" class="datepicker">
+                <input type="text" value="" name="description" placeholder="Надо сделать что-то хорошее..." required>
+            </div>
+
+            <div class="row">
+                <input type="date" value="" name="date" class="datepicker" required>
             </div>
             <div class="row">
-                <input type ="time" value="" name="time">
+                <input type ="time" value="" name="time" required>
             </div>
             <div class="row">
-                <input type ="text" placeholder="Самара, 5 просека, 24" value="" name="location">
+                <input type ="text" placeholder="Самара, 5 просека, 24" value="" name="location" required>
             </div>
             <div class="row">
                 <button class="waves-effect waves-light btn orange" type="submit">Добавить</button>
