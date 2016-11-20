@@ -18,6 +18,11 @@
           $('#textarea1').val('New Text');
           $('#textarea1').trigger('autoresize');
     </script>
+    <script>
+          $(document).ready(function(){
+            $('.collapsible').collapsible();
+            });
+    </script>
 </head>
 
 <body>
@@ -50,11 +55,17 @@
                             <div class = "card-action">
                                 <p align="justify">{{task.category_index.name}}</p>
                             </div>
-                            <p><i>Участники:</i></p>
                         <div class = "card-action">
-                            {% for m in members %}
-                                <p align="justify">{{ m.name}} {{ m.s_name }}</p>
-                            {% endfor %}
+                            <ul class = "collapsible" data-collapsible = "accordion">
+                                <li class="active">
+                                <div class = "collapsible-header fixed black-text">Участники:<span class="badge">{{ size }}</span></div>
+                                    <div class="collapsible-body white">
+                                        {% for m in task.members %}
+                                            <p><a href = "../profile/{{m.id}}">{{m.name + " " + m.s_name}}</a></p>
+                                        {% endfor %}
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
                         </div>
                         <div class="card-action">

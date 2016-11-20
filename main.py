@@ -208,7 +208,8 @@ def tasks():
 def task(task_ind):
     if get_task_by_id(task_ind) is None:
         abort(404)
-    return render_template('task.html', task=search_task_by_ind(task_ind), members=get_task_by_id(task_ind).members)
+    t = search_task_by_ind(task_ind)
+    return render_template('task.html', task=t, members=t.members, size=len(t.members))
 
 
 @app.route("/assigntask", methods=["POST"])
