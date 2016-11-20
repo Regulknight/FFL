@@ -34,12 +34,12 @@ idGen = IdGenerator()
 u1 = User(idGen.get_new_user_id(), "pam", "pam", "123", "123")
 users.append(u1)
 
-t1 = Task(idGen.get_new_task_id(), 1, "Покушать", "Сходить куда-нибудь покушать", "Шавермечная", "ночью", "", "Я",
+t1 = Task(idGen.get_new_task_id(), 1, "Покушать", "Сходить куда-нибудь покушать", "Шавермечная", "ночью", "", 1,
           "Не комплитед", 10)
-t2 = Task(idGen.get_new_task_id(), 2, "Разбудить Лесю", "Потолкать её", "Самара, 5 просека, 99Б", "Сейчас", "", "Я",
+t2 = Task(idGen.get_new_task_id(), 2, "Разбудить Лесю", "Потолкать её", "Самара, 5 просека, 99Б", "Сейчас", "", 1,
           "Не комплитед", 10)
 t3 = Task(idGen.get_new_task_id(), 3, "Отхватить от Леси люлей", "Защищаться", "На месте",
-          "После выполнения второго таска", "", "Я",
+          "После выполнения второго таска", "", 1,
           "Не комплитед совсем", 10)
 task_l = [t1, t2, t3]
 
@@ -121,6 +121,11 @@ def css(path):
 @app.route("/js/<path:path>")
 def js(path):
     return send_from_directory("js", path)
+
+
+@app.route("/fonts/<path:path>")
+def fonts(path):
+    return send_from_directory("fonts", path)
 
 
 def check_auth(username, password):
@@ -206,4 +211,4 @@ def edit(task_ind):
     return render_template("edit.html", task=t)
 
 app.secret_key = os.urandom(24)
-app.run("localhost", debug=True)
+app.run(host="192.168.137.206", debug=True)
