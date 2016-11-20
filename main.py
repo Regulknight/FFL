@@ -206,6 +206,8 @@ def tasks():
 
 @app.route("/tasks/<int:task_ind>")
 def task(task_ind):
+    if get_task_by_id(task_ind) is None:
+        abort(404)
     return render_template('task.html', task=search_task_by_ind(task_ind), members=get_task_by_id(task_ind).members)
 
 
@@ -288,6 +290,8 @@ def accept(task_index):
 @login_required
 def edit(task_ind):
     t = search_task_by_ind(task_ind)
+    if t == None:
+        abort(404)
     if current_user.id != t.owner.id:
         abort(403)
     if request.method == "POST":
@@ -303,6 +307,11 @@ def edit(task_ind):
 @app.errorhandler(403)
 def page_not_found(e):
     return "У вас нет прав!", 403
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return "Страница отсутсвует", 404
 
 
 app.secret_key = os.urandom(24)
