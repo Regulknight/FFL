@@ -6906,7 +6906,7 @@ input[type=range]:focus::-ms-fill-upper {
   height: -moz-calc(100%);
   padding-bottom: 60px;
   background-color: #fff;
-  z-index: 999;
+  z-index: 0;
   overflow-y: auto;
   will-change: transform;
   -webkit-backface-visibility: hidden;
@@ -7061,7 +7061,7 @@ input[type=range]:focus::-ms-fill-upper {
   left: 0;
   -webkit-transform: translateX(0);
           transform: translateX(0);
-  position: fixed;
+  /*position: fixed;*/
 }
 
 .side-nav.fixed.right-aligned {

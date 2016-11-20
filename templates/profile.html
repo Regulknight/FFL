@@ -31,7 +31,7 @@
             <p>Логин: {{ current_user.login }} </p>
             <ul class = "collapsible" data-collapsible = "accordion">
                 <li class="active">
-                    <div class = "collapsible-header">My Tasks</div>
+                    <div class = "collapsible-header">My Tasks: {{ assign_list_size }}</div>
                     <div class="collapsible-body">
                     {% for a in assign_list %}
                         {% if assign_list[-1] != a %}
