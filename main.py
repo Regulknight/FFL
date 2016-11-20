@@ -26,7 +26,6 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
-
 users = []
 
 idGen = IdGenerator()
@@ -34,20 +33,24 @@ idGen = IdGenerator()
 u1 = User(idGen.get_new_user_id(), "pam", "pam", "123", "123")
 users.append(u1)
 
-t1 = Task(idGen.get_new_task_id(), 3, "Помощь бабушке", "Одинокая старушка баба Валя вот уже пять лет живет в старом доме в центре Самары. "
-                                                        "Бабе Вале очень тяжело спускаться пешком с пятого этажа, поэтому мы ищем человека, "
-                                                        "который может сходить за хлебом в соседний магазин", "Самара", "21.11.2016", "", u1,
+t1 = Task(idGen.get_new_task_id(), 3, "Помощь бабушке",
+          "Одинокая старушка баба Валя вот уже пять лет живет в старом доме в центре Самары. "
+          "Бабе Вале очень тяжело спускаться пешком с пятого этажа, поэтому мы ищем человека, "
+          "который может сходить за хлебом в соседний магазин", "Самара", "21.11.2016", "", u1,
           False, 10)
-t2 = Task(idGen.get_new_task_id(), 4, "Уборка мусора", "Жители Чапаевска хотят провести уборку мусора на улицах своего прекрасного "
-                                                       "города, и ищут желающих выйти на субботник и благоустроить территорию "
-                                                       "его территорию", "Чапаевск", "25.11.2016", "", u1,
+t2 = Task(idGen.get_new_task_id(), 4, "Уборка мусора",
+          "Жители Чапаевска хотят провести уборку мусора на улицах своего прекрасного "
+          "города, и ищут желающих выйти на субботник и благоустроить территорию "
+          "его территорию", "Чапаевск", "25.11.2016", "", u1,
           False, 10)
-t3 = Task(idGen.get_new_task_id(), 1, "Игрушки для детей", "Требуется волонтер, который может помочь забрать игрушки и одежду и отнести "
-                                                           "их в Детский Дом №1", "Московское ш., 18-й км, 18А, Самара, Самарская обл., 443056",
+t3 = Task(idGen.get_new_task_id(), 1, "Игрушки для детей",
+          "Требуется волонтер, который может помочь забрать игрушки и одежду и отнести "
+          "их в Детский Дом №1", "Московское ш., 18-й км, 18А, Самара, Самарская обл., 443056",
           "22.11.2016", "", u1,
           False, 10)
-t4 = Task(idGen.get_new_task_id(), 2, "Помощь бездомному щеночку", "Ищем любящего хозяина для щенка кавказской овчарки Малого, "
-                                                                   "брошенного на произвол судьбы жестокими людьми", "Самара, Металлург",
+t4 = Task(idGen.get_new_task_id(), 2, "Помощь бездомному щеночку",
+          "Ищем любящего хозяина для щенка кавказской овчарки Малого, "
+          "брошенного на произвол судьбы жестокими людьми", "Самара, Металлург",
           "23.11.2016", "", u1,
           False, 10)
 
@@ -61,6 +64,7 @@ c2 = Category(2, "Животные")
 с5 = Category(5, "Разное")
 
 c_l = [c1, c2, с3, с4, с5]
+
 
 def search_task_by_ind(ind):
     for t in task_l:
@@ -135,6 +139,11 @@ def js(path):
     return send_from_directory("js", path)
 
 
+@app.route("/img/<path:path>")
+def img(path):
+    return send_from_directory("img", path)
+
+
 @app.route("/fonts/<path:path>")
 def fonts(path):
     return send_from_directory("fonts", path)
@@ -191,7 +200,7 @@ def task(task_ind):
 @login_required
 def assign_task():
     current_user.assign_list.append(get_task_by_id(int(flask.request.form["id"])))
-    get_task_by_id(int(flask.request.form["id"])).members.append(current_user)
+    get_task_by_id(int(flask.request.form["id"])).members.append(load_user(current_user.id))
     return redirect("/tasks/" + flask.request.form["id"])
 
 
@@ -204,7 +213,16 @@ def get_task_by_id(id):
 @app.route("/profile")
 @login_required
 def profile():
-    return render_template("profile.html", assign_list=current_user.assign_list, assign_list_size = len(current_user.assign_list))
+    return render_template("profile.html", user=current_user, assign_list=current_user.assign_list,
+                           assign_list_size=len(current_user.assign_list))
+
+
+@app.route("/profile/<int:user_id>")
+@login_required
+def profile_id(user_id):
+    u = load_user(user_id)
+    return render_template("profile.html", user=u, assign_list=u.assign_list,
+                           assign_list_size=len(u.assign_list))
 
 
 @app.route("/logout")
@@ -248,6 +266,7 @@ def edit(task_ind):
         t.description = flask.request.form["description"]
         return redirect("/tasks/" + str(t.id))
     return render_template("edit.html", task=t)
+
 
 app.secret_key = os.urandom(24)
 app.run("localhost", debug=True)

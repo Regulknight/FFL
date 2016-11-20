@@ -26,9 +26,9 @@
 
     <div class="container">
         <div class = "card-panel">
-            <p>Имя: {{ current_user.name }} </p>
-            <p>Фамилия: {{ current_user.s_name }} </p>
-            <p>Логин: {{ current_user.login }} </p>
+            <p>Имя: {{ user.name }} </p>
+            <p>Фамилия: {{ user.s_name }} </p>
+            <p>Логин: {{ user.login }} </p>
             <ul class = "collapsible" data-collapsible = "accordion">
                 <li class="active">
                     <div class = "collapsible-header">My Tasks: {{ assign_list_size }}</div>
