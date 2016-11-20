@@ -260,17 +260,21 @@ def accept(task_index):
     if current_user.id != t.owner.id:
         abort(550)
     if request.method == "POST":
-        i = 0
-        list_of_values = request.form.listvalues()
-        for j in list_of_values:
-            values = j
-        for tag in values:
-            if t.members[i].id != t.owner.id:
-                if tag == "on":
-                    load_user(t.members[i].id).exp += 10
-            i += 1
-        t.status = True
-        return redirect("../../tasks/"+str(t.id))
+        if len(t.members) != 0:
+            i = 0
+            list_of_values = request.form.listvalues()
+            for j in list_of_values:
+                values = j
+            for tag in values:
+                if t.members[i].id != t.owner.id:
+                    if tag == "on":
+                        load_user(t.members[i].id).exp += 10
+                i += 1
+            t.status = True
+            return redirect("../../tasks/"+str(t.id))
+        else:
+            t.status = True
+            return redirect("../../tasks/" + str(t.id))
 
     return render_template("accept.html", members=t.members, task=t)
 
