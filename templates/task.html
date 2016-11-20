@@ -61,6 +61,11 @@
                             {% endif %}
                             {% if current_user.id == task.owner.id %}
                                 <a href = "/tasks/{{task.id}}/edit" class="waves-effect waves-light btn orange" >Редактировать</a>
+                                {% if task.status %}
+                                    <a href="" class="waves-effect waves-light btn green lighten-1">Выполнено</a>
+                                {% else %}
+                                    <a href="/accept/{{task.id}}" class="waves-effect waves-light btn yellow darken-1">Открыто</a>
+                                {% endif %}
                             {% endif %}
                         </div>
                     </div>
