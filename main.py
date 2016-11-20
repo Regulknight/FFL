@@ -155,6 +155,9 @@ def img(path):
 def fonts(path):
     return send_from_directory("fonts", path)
 
+@app.route("/info")
+def info():
+    return render_template("info.html")
 
 def check_auth(username, password):
     for u in users:

@@ -2,6 +2,7 @@
     <div class="nav-wrapper blue lighten-1">
       <a href="/" class="brand-logo" style="padding-left: 1%">Be Good</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a href="/info"  >О проекте</a></li>
                 {%if current_user.is_authenticated %}
                     <li><progress style="-webkit-appearance: progress-bar" value="{{current_user.exp}}" max="100"></progress></li>
                     <li><a href="/profile" >{{current_user.s_name}} {{current_user.name}}</a></li>
