@@ -25,13 +25,13 @@
     {% include 'nav.html' %}
 
     <div class="container">
-        <div class = "card-panel">
-            <p>Имя: {{ user.name }} </p>
-            <p>Фамилия: {{ user.s_name }} </p>
-            <p>Логин: {{ user.login }} </p>
+        <div class = "card-panel fixed blue lighten-3">
+            <font color = "white"><p>Имя: {{ current_user.name }} </p>
+            <p>Фамилия: {{ current_user.s_name }} </p>
+            <p>Логин: {{ current_user.login }} </p></font>
             <ul class = "collapsible" data-collapsible = "accordion">
                 <li class="active">
-                    <div class = "collapsible-header">My Tasks: {{ assign_list_size }}</div>
+                    <div class = "collapsible-header fixed blue lighten-2"><font color = "white">My Tasks: {{ assign_list_size }}</font></div>
                     <div class="collapsible-body">
                     {% for a in assign_list %}
                         {% if assign_list[-1] != a %}
