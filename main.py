@@ -225,14 +225,20 @@ def delete(id):
     abort(550)
 
 
-@app.route("/accept/<int:id>")
+@app.route("/accept/<int:id>", methods=["GET", "POST"])
 @login_required
 def accept(id):
     t = search_task_by_ind(id)
-    if current_user.id == t.owner.id:
-        t.status = True
-        return redirect("../tasks/" + str(t.id))
-    abort(550)
+    if current_user.id != t.owner.id:
+        abort(550)
+    if request.method == "POST":
+        for member in t.members:
+            if request.form.get(["checkID"+str(member.id)]):
+                if current_user.id != member.id:
+                    member.exp += 10
+        return redirect("../../tasks/"+t.id)
+
+    return render_template("accept.html", members=t.members, task=t)
 
 
 @app.route("/tasks/<int:task_ind>/edit", methods=["GET", "POST"])
