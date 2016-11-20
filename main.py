@@ -36,19 +36,20 @@ users.append(u1)
 
 t1 = Task(idGen.get_new_task_id(), 1, "Покушать", "Сходить куда-нибудь покушать", "Шавермечная", "ночью", "", 1,
           "Не комплитед", 10)
-t2 = Task(idGen.get_new_task_id(), 2, "Разбудить Лесю", "Потолкать её", "Самара, 5 просека, 99Б", "Сейчас", "", 1,
+t2 = Task(idGen.get_new_task_id(), 5, "Разбудить Лесю", "Потолкать её", "Самара, 5 просека, 99Б", "Сейчас", "", 1,
           "Не комплитед", 10)
 t3 = Task(idGen.get_new_task_id(), 3, "Отхватить от Леси люлей", "Защищаться", "На месте",
           "После выполнения второго таска", "", 1,
           "Не комплитед совсем", 10)
 task_l = [t1, t2, t3]
 
-c1 = Category(1, "Котики")
-c2 = Category(2, "Собачки")
-с3 = Category(3, "Бабушки")
+c1 = Category(1, "Дети")
+c2 = Category(2, "Животные")
+с3 = Category(3, "Пожилые жители")
+с4 = Category(4, "Благоустройство")
+с5 = Category(5, "Разное")
 
-c_l = [c1, c2, с3]
-
+c_l = [c1, c2, с3, с4, с5]
 
 def search_task_by_ind(ind):
     for t in task_l:
@@ -211,4 +212,4 @@ def edit(task_ind):
     return render_template("edit.html", task=t)
 
 app.secret_key = os.urandom(24)
-app.run(host="192.168.137.206", debug=True)
+app.run(host="localhost", debug=True)

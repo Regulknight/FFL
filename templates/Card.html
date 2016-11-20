@@ -21,9 +21,9 @@
 <header>
     <ul id="nav-mobile" class="side-nav fixed blue lighten-3" style="transform: translateX(0%);">
         <ul class="collection" style="border: 0px; padding-left: 5%" >
-            <li class="collection-header">Категории:</li>
+            <li class="collection-header"><font color="white">Категории:</font></li>
             {% for category in category_list %}
-                <li><a href = "/tasks?category={{category.id}}">{{category.name}}</a></li>
+                <li><a href = "/tasks?category={{category.id}}"><font color="white">{{category.name}}</font></a></li>
             {% endfor %}
         </ul>
     </ul>
