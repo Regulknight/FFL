@@ -7,4 +7,19 @@
         </div>
     {% endfor %}
     </div>
+    <div>
+    <form action="/add_comment" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="input-field" style="padding-left: 5%">
+                <textarea id="textarea1" class="materialize-textarea"></textarea>
+                <!--<label for="textarea1">Textarea</label>-->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s3 offset-l9">
+                <input type="button" class="waves-effect waves-light btn blue lighten-3" value="Отправить"/>
+            </div>
+        </div>
+    </form>
+</div>
 </div>
