@@ -33,22 +33,36 @@ idGen = IdGenerator()
 u1 = User(idGen.get_new_user_id(), "pam", "pam", "123", "123")
 users.append(u1)
 
-t1 = Task(idGen.get_new_task_id(), 3, "Помощь бабушке",
+c1 = Category(1, "Дети")
+c2 = Category(2, "Животные")
+с3 = Category(3, "Пожилые жители")
+с4 = Category(4, "Благоустройство")
+с5 = Category(5, "Разное")
+
+c_l = [c1, c2, с3, с4, с5]
+
+def get_category_by_id(id):
+    for c in c_l:
+        if c.id == id:
+            return c
+
+
+t1 = Task(idGen.get_new_task_id(), get_category_by_id(3), "Помощь бабушке",
           "Одинокая старушка баба Валя вот уже пять лет живет в старом доме в центре Самары. "
           "Бабе Вале очень тяжело спускаться пешком с пятого этажа, поэтому мы ищем человека, "
           "который может сходить за хлебом в соседний магазин", "Самара", "21.11.2016", "", u1,
           False, 10)
-t2 = Task(idGen.get_new_task_id(), 4, "Уборка мусора",
+t2 = Task(idGen.get_new_task_id(), get_category_by_id(4), "Уборка мусора",
           "Жители Чапаевска хотят провести уборку мусора на улицах своего прекрасного "
           "города, и ищут желающих выйти на субботник и благоустроить территорию "
           "его территорию", "Чапаевск", "25.11.2016", "", u1,
           False, 10)
-t3 = Task(idGen.get_new_task_id(), 1, "Игрушки для детей",
+t3 = Task(idGen.get_new_task_id(), get_category_by_id(1), "Игрушки для детей",
           "Требуется волонтер, который может помочь забрать игрушки и одежду и отнести "
           "их в Детский Дом №1", "Московское ш., 18-й км, 18А, Самара, Самарская обл., 443056",
           "22.11.2016", "", u1,
           False, 10)
-t4 = Task(idGen.get_new_task_id(), 2, "Помощь бездомному щеночку",
+t4 = Task(idGen.get_new_task_id(), get_category_by_id(2), "Помощь бездомному щеночку",
           "Ищем любящего хозяина для щенка кавказской овчарки Малого, "
           "брошенного на произвол судьбы жестокими людьми", "Самара, Металлург",
           "23.11.2016", "", u1,
@@ -57,13 +71,7 @@ t4 = Task(idGen.get_new_task_id(), 2, "Помощь бездомному щен�
 task_l = [t1, t2, t3, t4]
 u1.task_list.extend(task_l)
 
-c1 = Category(1, "Дети")
-c2 = Category(2, "Животные")
-с3 = Category(3, "Пожилые жители")
-с4 = Category(4, "Благоустройство")
-с5 = Category(5, "Разное")
 
-c_l = [c1, c2, с3, с4, с5]
 
 
 def search_task_by_ind(ind):
@@ -75,7 +83,7 @@ def search_task_by_ind(ind):
 def search_category_by_id(id):
     result = []
     for x in task_l:
-        if x.category_index == id:
+        if x.category_index.id == id:
             result.append(x)
     return result
 
@@ -128,12 +136,6 @@ def add_task():
         current_user.task_list.append(task)
         return redirect("/tasks/" + str(id))
     return render_template("add.html", category=c_l)
-
-
-def get_category_by_id(id):
-    for c in c_l:
-        if c.id == id:
-            return c
 
 
 @app.route("/css/<path:path>")
@@ -192,6 +194,7 @@ def registraty(fname, name, login, password):
 
 
 @app.route("/tasks")
+@app.route("/tasks/")
 def tasks():
     cat = request.args.get('category', '')
     if cat is not '':
@@ -249,6 +252,8 @@ def delete(id):
     if current_user.id == t.owner.id:
         task_l.remove(t)
         current_user.task_list.remove(t)
+        for m in t.members:
+            m.assign_list.remove(t)
         return redirect("../tasks")
     abort(550)
 
@@ -258,7 +263,7 @@ def delete(id):
 def accept(task_index):
     t = search_task_by_ind(task_index)
     if current_user.id != t.owner.id:
-        abort(550)
+        abort(403)
     if request.method == "POST":
         i = 0
         list_of_values = request.form.listvalues()
@@ -280,7 +285,7 @@ def accept(task_index):
 def edit(task_ind):
     t = search_task_by_ind(task_ind)
     if current_user.id != t.owner.id:
-        abort(550)
+        abort(403)
     if request.method == "POST":
         t.name = flask.request.form["name"]
         t.date = flask.request.form["date"]
@@ -289,6 +294,11 @@ def edit(task_ind):
         t.description = flask.request.form["description"]
         return redirect("/tasks/" + str(t.id))
     return render_template("edit.html", task=t)
+
+
+@app.errorhandler(403)
+def page_not_found(e):
+    return "У вас нет прав!", 403
 
 
 app.secret_key = os.urandom(24)

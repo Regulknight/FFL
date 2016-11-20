@@ -43,6 +43,9 @@
                 <div class = "card-action"><p>{{task.description}}</p></div>
             </div>
             <div class="card-action">
+             {% if  task.status%}
+                                <a href = "/tasks/{{task.id}}"  class="waves-effect waves-light btn light-green" >Закрыт</a>
+            {% else %}
                 {% if current_user not in task.members %}
                 <a href = "/tasks/{{task.id}}" class="waves-effect waves-light btn orange" >Откликнуться</a>
                 {% else %}
@@ -51,6 +54,7 @@
                 {% if current_user.id == task.owner.id %}
                 <a href = "/tasks/{{task.id}}/edit" class="waves-effect waves-light btn orange" >Редактировать</a>
                 {% endif %}
+            {% endif %}
             </div>
         </div>
 {% endfor %}

@@ -58,6 +58,9 @@
                         </div>
                         <div class="card-action">
                             <input type="hidden" name="id" value="{{ task.id }}"/>
+                            {% if  task.status%}
+                                <a class="waves-effect waves-light btn light-green" >Закрыт</a>
+                            {% else %}
                             {% if not current_user.is_authenticated %}
                                 <a href="../login?next=tasks/{{ task.id }}" class="waves-effect waves-light btn orange" >Откликнуться</a>
                             {% else %}
@@ -80,6 +83,8 @@
                                     {% else %}
                                     <a href="#" class="waves-effect waves-light btn yellow darken-1">Открыто</a>
                                         {% endif %}
+                            {% endif %}
+
                             {% endif %}
                         </div>
                     </div>
