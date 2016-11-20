@@ -13,6 +13,11 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="../css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="../js/materialize.min.js"></script>
+    <script>
+          $('#textarea1').val('New Text');
+          $('#textarea1').trigger('autoresize');
+    </script>
 </head>
 
 <body>
@@ -78,9 +83,12 @@
                             {% endif %}
                         </div>
                     </div>
+                    {% include 'comment.html'%}
+                    {% include 'add_comment.html'%}
                 </div>
             </div>
         </form>
+
     </div>
 </body>
 </html>

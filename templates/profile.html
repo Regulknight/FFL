@@ -32,14 +32,10 @@
             <p>Логин: {{ current_user.login }} </p></font>
             <ul class = "collapsible" data-collapsible = "accordion">
                 <li class="active">
-                    <div class = "collapsible-header fixed blue lighten-2">My Tasks: <span class="badge">{{ assign_list_size }}</span></div>
-                    <div class="collapsible-body">
+                    <div class = "collapsible-header fixed white">Мои задания: <span class="badge">{{ assign_list_size }}</span></div>
+                    <div class="collapsible-body white">
                     {% for a in assign_list %}
-                        {% if assign_list[-1] != a %}
-                            <a href = "../tasks/{{a.id}}">{{ a.name  + ", "}}</a>
-                        {% else %}
-                            <a href = "../tasks/{{a.id}}">{{ a.name}}</a>
-                        {% endif %}
+                            <p><a href = "../tasks/{{a.id}}">{{ a.name}}</a></p>
                     {% endfor %}
                     </div>
                 </li>

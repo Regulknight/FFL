@@ -276,6 +276,7 @@ def accept(task_index):
 
 
 @app.route("/tasks/<int:task_ind>/edit", methods=["GET", "POST"])
+@login_required
 def edit(task_ind):
     t = search_task_by_ind(task_ind)
     if current_user.id != t.owner.id:
