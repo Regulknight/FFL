@@ -30,6 +30,7 @@
                 <div class="col s3">
                     <div class="card blue lighten-3">
                         <div class="card-content white-text">
+                            <p>{{task.date}}</p>
                             <p>{{task.time}}</p>
                             <p><img src= "/img/map.png" width="18"> {{task.location}}</p>
                             <iframe width="100%" height="450" frameborder="0" style="border:0"
@@ -84,7 +85,6 @@
                         </div>
                     </div>
                     {% include 'comment.html'%}
-                    {% include 'add_comment.html'%}
                 </div>
             </div>
         </form>
