@@ -5,6 +5,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
     <title>Create New Post</title>
+    <style>
+        h5{
+            text-transform: uppercase
+        }
+    </style>
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="../css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
@@ -14,7 +19,7 @@
 
 <body>
 <header>
-    <ul id="nav-mobile" class="side-nav fixed grey" style="transform: translateX(0%);">
+    <ul id="nav-mobile" class="side-nav fixed blue lighten-3" style="transform: translateX(0%);">
         <ul class="collection" style="border: 0px; padding-left: 5%" >
             <li class="collection-header">Категории:</li>
             {% for category in category_list %}
@@ -32,10 +37,10 @@
 
         <div class="card blue lighten-3">
             <div class="card-content white-text">
-                <span class="card-title">{{task.name}}</span>
+                <span class="card-title"><h5 align="right">{{task.name}}</h5></span>
                 <p>{{task.time}}</p>
                 <p>{{task.location}}</p>
-                <p>{{task.description}}</p>
+                <div class = "card-action"><p>{{task.description}}</p></div>
             </div>
             <div class="card-action">
                 {% if current_user not in task.members %}
