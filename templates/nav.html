@@ -3,7 +3,7 @@
       <a href="/" class="brand-logo" style="padding-left: 1%">Be Good</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
                 {%if current_user.is_authenticated %}
-                    <li><progress style="-webkit-appearance: progress-bar" value="70" max="100"></progress></li>
+                    <li><progress style="-webkit-appearance: progress-bar" value="{{current_user.exp}}" max="100"></progress></li>
                     <li style="padding-left: 15px;padding-right: 15px"><a href="/profile" >{{current_user.s_name}} {{current_user.name}}</a></li>
                 {% else %}
                     <li><a href="/logup" >Регистрация</a></li>
