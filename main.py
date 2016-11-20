@@ -317,4 +317,4 @@ def page_not_found(e):
 
 
 app.secret_key = os.urandom(24)
-app.run("localhost", debug=True)
+app.run("localhost", debug=False)
